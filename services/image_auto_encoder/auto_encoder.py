@@ -7,6 +7,7 @@ import numpy as np
 import cv2
 import sys
 import random
+import pdb
 
 disable_eager_execution()
 
@@ -21,19 +22,19 @@ class AutoEncoder:
             self.x_batch, filter_shape, activation_function, strides)
 
         self.layer_2 = self.add_cnn_layer(
-            self.layer_1, filter_shape, activation_function, strides)
+            self.layer_1, [filter_shape[0], filter_shape[1], filter_shape[2], 32], activation_function, strides)
 
         self.layer_3 = self.add_cnn_layer(
-            self.layer_2, filter_shape, activation_function, strides)
+            self.layer_2, [filter_shape[0], filter_shape[1], 32, 64], activation_function, strides)
 
         # self.pooling = self.add_pooling_layer(self.layer_3)
         # self.unpolling = self.add_unpooling_layer(self.pooling, self.layer_3.shape)
 
         # self.layer_4 = self.add_deconv_layer(self.unpolling, filter_shape, self.layer_2.shape)
 
-        self.layer_4 = self.add_deconv_layer(self.layer_3, filter_shape, self.layer_2.shape)
+        self.layer_4 = self.add_deconv_layer(self.layer_3, [filter_shape[0], filter_shape[1], 32, 64], self.layer_2.shape)
 
-        self.layer_5 = self.add_deconv_layer(self.layer_4, filter_shape, self.layer_1.shape)
+        self.layer_5 = self.add_deconv_layer(self.layer_4, [filter_shape[0], filter_shape[1], filter_shape[2], 32], self.layer_1.shape)
 
         self.layer_6 = self.add_deconv_layer(self.layer_5, filter_shape, self.x_batch.shape)
 
@@ -55,8 +56,8 @@ class AutoEncoder:
                 print(e)
         self.sess = tf.compat.v1.Session()
 
-        if os.path.isfile("trained_parameters/auto_1.index"):
-            self.saver.restore(sess=self.sess, save_path="trained_parameters/auto_1")
+        if os.path.isfile("trained_parameters/auto_2.index"):
+            self.saver.restore(sess=self.sess, save_path="trained_parameters/auto_2")
         else:
             self.sess.run(tf.compat.v1.global_variables_initializer())
 
@@ -65,7 +66,7 @@ class AutoEncoder:
             datasets = self.img_to_data_set(imgs_src)
         else:
             datasets = imgs_src
-        save_path = "trained_parameters/auto_1"
+        save_path = "trained_parameters/auto_2"
 
         try:
             # while True:
@@ -137,19 +138,19 @@ class AutoEncoder:
     def img_to_data_set_batch(self, files_path, batch_size):
         # filelist = glob.glob(os.path.join(files_path, '*'))
         filelist = os.listdir(files_path)
-        filelist.sort()
         end_index = len(filelist) -1
         index_start = random.randint(0,end_index)
         index_end = index_start + batch_size
         if index_end > end_index:
             index_end = index_start - batch_size
-        name_list = filelist[index_start:index_end]
+        # name_list = filelist[index_start:index_end]
+        name_list = filelist[0:1]
         images = []
         count = 0
         for file_name in name_list:
             process_rate = float(count/len(name_list)) * 100
             temp_img = self.parse_function(files_path + '\\' + file_name)
-            if np.shape(temp_img) == (1080, 1920, 3):
+            if np.shape(temp_img) == (108, 192, 3):
                 images.append(temp_img) 
             sys.stdout.write("\rDoing thing %i ％" % process_rate)
             sys.stdout.flush()
