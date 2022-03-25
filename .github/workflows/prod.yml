@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+      - name: show all envs
+      - run: echo ${{secrets.AWS_REGION}}
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
