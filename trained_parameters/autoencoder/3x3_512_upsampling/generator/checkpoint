@@ -1,2 +1,0 @@
-model_checkpoint_path: "ckpt_generator"
-all_model_checkpoint_paths: "ckpt_generator"
