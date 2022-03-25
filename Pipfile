@@ -11,6 +11,7 @@ flask-migrate = "*"
 flask-script = "*"
 flask-cors = "*"
 tensorflow = "*"
-numpy = "*"
 opencv-python = "*"
 Pillow = '*'
+waitress = '*'
+tensorflowjs = {extras = ["wizard"], version = "*"}

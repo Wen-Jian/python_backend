@@ -1,0 +1,16 @@
+@domain = http://localhost:5000/
+### Login
+post {{domain}}login HTTP/1.1;
+content-type: application/json
+
+{
+    "account": "test" 
+}
+
+### inpaint image
+post {{domain}}inpaint_image HTTP/1.1
+content-type: application/json
+
+{}
+
+###

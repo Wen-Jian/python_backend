@@ -7,7 +7,6 @@ import random
 import string
 from datetime import datetime, timedelta
 from sqlalchemy import desc
-import pdb
 loginRoute = Blueprint('loginRoute', __name__)
 
 def generateRequestToken():
@@ -19,10 +18,16 @@ def generateRequestToken():
 @loginRoute.route('/login', methods=['POST'])
 def login():
     params = request.json
-    email = params['account']
-    password = params['password']
+    email = params.get('account')
+    password = params.get('password')
+
+    if email == None or password == None:
+        return jsonify({
+            'error': 'accout or password can\'t be blank'
+        }), 400
+
     user = User.query.filter_by(email = email).first()
-    pdb.set_trace()
+
     if user != None and user.password == password:
         request_token, _ = generateRequestToken()
         request_token_record = RequestToken(

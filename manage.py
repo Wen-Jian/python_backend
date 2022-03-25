@@ -1,3 +1,4 @@
+from distutils.log import debug
 from flask_script import Manager, Server
 import os
 import sys
@@ -13,4 +14,4 @@ def make_shell_context():
     return dict(app=main, User=User)
 
 if __name__ == '__main__':
-    manager.run()
+    manager.run(debug=True)

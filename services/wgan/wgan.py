@@ -147,60 +147,10 @@ class Wgan:
             cv2.imshow('input', np.array(self.test_imgs * 127.5 + 127.5).astype(np.uint8)[len(images) - 1])
             cv2.imshow('result', np.array(self.generator(self.test_imgs, training=True) * 127.5 + 127.5).astype(np.uint8)[len(images) - 1])
             cv2.waitKey(1)
-            
-    def train_auto_encoder(self, ds, log=False):
-        ds = iter(ds)
-        images = next(ds)
-        if (self.test_imgs == None):
-            self.test_imgs = images
-        encoder_loss = self.train_step_for_auto_encoder(images)
-        self.auto_encoder.save_weights(self.checkpoint_path + "autoencoder/ckpt_autoencoder")
-        print('encoder_loss: {}'.format(encoder_loss))
-        if (log):
-            cv2.imshow('input', np.array(self.test_imgs * 127.5 + 127.5).astype(np.uint8)[len(images) - 1])
-            cv2.imshow('result', np.array(self.generator(self.test_imgs, training=True) * 127.5 + 127.5).astype(np.uint8)[len(images) - 1])
-            cv2.waitKey(1)
-    
-    @tf.function
-    def train_step_for_auto_encoder(self, real_images):
-        with tf.device("/gpu:0"):
-            with tf.GradientTape() as g_tape:
-                fake_images = self.auto_encoder(real_images, training=True)
-                loss = self.auto_encoder_loss_fn(tf.cast(real_images, tf.float32), fake_images)
-        g_gradients = g_tape.gradient(loss, self.auto_encoder.trainable_variables)
-        self.g_optim.apply_gradients(zip(g_gradients, self.auto_encoder.trainable_variables))
-        return loss
     
     def gen_image(self, ds):
         ds = iter(ds)
         images = next(ds)
         cv2.imshow('result', np.array(self.generator(images) * 127.5 + 127.5).astype(np.uint8)[len(images) - 1])
         cv2.waitKey(0)
-
-    def make_auto_encoder(self):
-        input1 = tf.keras.layers.Input(shape=(None,None,3))
-        x = tf.keras.layers.Conv2D(16, 3, strides=(2, 2), padding="same")(input1)
-        # x = tf.keras.layers.BatchNormalization()(x)
-        x = tf.keras.layers.LeakyReLU(alpha=0.2)(x)[0]
-        x = tf.keras.layers.Conv2D(64, 3, strides=(2, 2), padding="same")(x),
-        # x = tf.keras.layers.BatchNormalization()(x)
-        res = tf.keras.layers.LeakyReLU(alpha=0.2)(x)[0]
-        x = res
-        for count in range(5):
-            x = tf.keras.layers.Conv2D(64, (3, 3), strides=(1, 1), padding="same")(x)
-            x = tf.keras.layers.BatchNormalization()(x)
-            x = tf.keras.layers.LeakyReLU(alpha=0.2)(x)
-            x = tf.keras.layers.Conv2D(64, (3, 3), strides=(1, 1), padding="same")(x)
-            x = tf.keras.layers.BatchNormalization()(x)
-            x = tf.keras.layers.Add()([res, x])
-
-        for i in range(2):
-            x = tf.keras.layers.Conv2D(128, (3, 3), strides=(1, 1), padding="same")(x)
-            x = tf.nn.depth_to_space(x, 2)
-            x = tf.keras.layers.LeakyReLU()(x)
-        
-        x = tf.keras.layers.Conv2D(3, (9, 9), strides=(1, 1), padding="same")(x)
-        
-        SRResnet = tf.keras.models.Model(input1, x)
-        return SRResnet
         
