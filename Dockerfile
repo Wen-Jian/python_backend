@@ -3,6 +3,6 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install --skip-lock
+RUN pip install
 
 CMD python manage.py runserver
