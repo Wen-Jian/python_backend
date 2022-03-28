@@ -3,6 +3,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN cd app && pip install
+RUN ls
+
+# RUN cd app && pip install
 
 CMD python manage.py runserver
