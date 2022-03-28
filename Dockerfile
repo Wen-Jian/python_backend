@@ -5,6 +5,6 @@ COPY . /app
 
 RUN ls
 
-# RUN cd app && pip install
+RUN pip install
 
 CMD python manage.py runserver
