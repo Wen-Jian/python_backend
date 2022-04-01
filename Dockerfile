@@ -5,6 +5,6 @@ COPY . /app
 
 RUN ls
 
-RUN pip install
+RUN pip install Pipfile
 
 CMD python manage.py runserver
