@@ -4,22 +4,22 @@ import sys
 sys.path.append(os.path.join(os.getcwd(), 'app/'))
 sys.path.append(os.path.join(os.getcwd(), 'services/'))
 from db import db
-from flask_migrate import Migrate
+# from flask_migrate import Migrate
 from flask_cors import CORS
 
-from api.v1.login import loginRoute
+# from api.v1.login import loginRoute
 from api.v1.images import imagesRoute
 
 main = Flask(__name__)
-main.register_blueprint(loginRoute)
+# main.register_blueprint(loginRoute)
 main.register_blueprint(imagesRoute)
-main.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+# main.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 
-db.init_app(main)
-migrate = Migrate(main, db)
+# db.init_app(main)
+# migrate = Migrate(main, db)
 
-from app.models.user import User
-from app.models.request_token import RequestToken
+# from app.models.user import User
+# from app.models.request_token import RequestToken
 CORS(main)
 
 @main.after_request # blueprint can also be app~~

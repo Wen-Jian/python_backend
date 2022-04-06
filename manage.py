@@ -4,7 +4,7 @@ import os
 import sys
 sys.path.append(os.path.join(os.getcwd(), 'app/'))
 from app import main
-from app.models.user import User
+# from app.models.user import User
 from waitress import serve
 
 # manager = Manager(main)
