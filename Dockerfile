@@ -34,4 +34,4 @@ USER appuser
 COPY . .
 
 # Run the application
-CMD python manage.py runserver
+CMD python manage.py
