@@ -19,19 +19,19 @@ COPY Pipfile.lock .
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --skip-lock
 
 
-FROM base AS runtime
+# FROM base AS runtime
 
-# Copy virtual env from python-deps stage
-COPY --from=python-deps /.venv /.venv
-ENV PATH="/.venv/bin:$PATH"
+# # Copy virtual env from python-deps stage
+# COPY --from=python-deps /.venv /.venv
+# ENV PATH="/.venv/bin:$PATH"
 
-# Create and switch to a new user
-RUN useradd --create-home appuser
-WORKDIR /home/appuser
-USER appuser
+# # Create and switch to a new user
+# RUN useradd --create-home appuser
+# WORKDIR /home/appuser
+# USER appuser
 
-# Install application into container
-COPY . .
+# # Install application into container
+# COPY . .
 
 # Run the application
-CMD python manage.py
+CMD pipenv run python manage.py
