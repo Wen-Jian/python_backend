@@ -12,6 +12,9 @@ FROM base AS python-deps
 # Install pipenv and compilation dependencies
 RUN pip install pipenv
 RUN apt-get update && apt-get install -y --no-install-recommends gcc
+RUN pip install opencv-python
+RUN apt update && apt install -y libsm6 libxext6
+RUN apt-get install -y libxrender-dev
 
 # Install python dependencies in /.venv
 COPY . .
