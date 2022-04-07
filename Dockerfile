@@ -1,5 +1,5 @@
 # FROM python:3.7-slim as base
-FROM python:3.7-slim
+FROM python:3.7
 
 # Setup env
 ENV LANG C.UTF-8
