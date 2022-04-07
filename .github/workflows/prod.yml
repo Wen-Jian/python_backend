@@ -1,4 +1,4 @@
-name: python-backend
+name: frontend-web
 on:
   push:
     branch:
