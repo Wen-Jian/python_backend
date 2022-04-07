@@ -17,4 +17,4 @@ waitress = '*'
 tensorflowjs = {extras = ["wizard"], version = "*"}
 
 [requires]
-python_version = "3.6.2"
+python_version = "3.6"

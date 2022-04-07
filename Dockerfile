@@ -1,4 +1,5 @@
-FROM python:3.7-slim as base
+# FROM python:3.7-slim as base
+FROM python:3.7-slim
 
 # Setup env
 ENV LANG C.UTF-8
@@ -7,7 +8,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONFAULTHANDLER 1
 
 
-FROM base AS python-deps
+# FROM base AS python-deps
 
 # Install pipenv and compilation dependencies
 RUN pip install pipenv
@@ -17,7 +18,7 @@ RUN apt-get install -y libxrender-dev
 
 # Install python dependencies in /.venv
 COPY . .
-RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --skip-lock
+RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --skip-lock --python 3.6
 
 
 # FROM base AS runtime
