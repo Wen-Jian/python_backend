@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+opencv-python = "*"
 
 [packages]
 flask = "*"
@@ -11,9 +12,9 @@ flask-migrate = "*"
 flask-script = "*"
 flask-cors = "*"
 tensorflow = "*"
-opencv-python = "*"
 Pillow = '*'
 waitress = '*'
+opencv-python-headless = "*"
 tensorflowjs = {extras = ["wizard"], version = "*"}
 
 [requires]
