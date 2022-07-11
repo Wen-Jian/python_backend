@@ -16,7 +16,7 @@ imagesRoute = Blueprint('imagesRoute', __name__)
 @imagesRoute.route('/inpaint_image', methods=['POST'])
 def inpaint_image():
     try:
-        current_app.logger.info('logged by current_app.logger')
+        print('1')
         params = request.json
         img_data = params.get('img_data')
         line_weight = params.get('line_weight')
@@ -24,6 +24,7 @@ def inpaint_image():
         binary = base64.b64decode(img_data)
         image = np.asarray(bytearray(binary), dtype="uint8")
         image_np = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        print('2')
 
         img_shape = image_np.shape
         padding_y_n = 32 - img_shape[0] % 32
@@ -36,6 +37,7 @@ def inpaint_image():
         # inpainted_image_v1 = model_v1.predict(np.expand_dims(masked_xs[0], axis=0))[0]
         # inpainted_image = (inpainted_image_v1 * 255).astype(np.uint8)
         # retval, buffer = cv2.imencode('.jpg', inpainted_image[0:img_shape[0], 0:img_shape[1], :])
+        print('3')
 
         padded_img_shape = padded_imgs[0].shape
         model_v2 = InpaintingModelV2().prepare_model(padded_img_shape)
@@ -45,6 +47,7 @@ def inpaint_image():
         inpainted_image_v2 = model_v2.predict([masked_xs_v2[sample_idx].reshape((1,)+masked_xs_v2[sample_idx].shape), masks[sample_idx].reshape((1,)+masks[sample_idx].shape)])[0]
         inpainted_image_v2 = (inpainted_image_v2 * 255).astype(np.uint8)
         retval, buffer = cv2.imencode('.jpg', inpainted_image_v2[0:img_shape[0], 0:img_shape[1], :])
+        print('4')
         
         new_image_string = base64.b64encode(buffer).decode("utf-8")
 
