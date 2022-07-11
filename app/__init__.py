@@ -9,6 +9,10 @@ from flask_cors import CORS
 
 # from api.v1.login import loginRoute
 from api.v1.images import imagesRoute
+import logging
+ 
+logging.basicConfig(filename = './logs/development.log', format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+
 
 main = Flask(__name__)
 # main.register_blueprint(loginRoute)
