@@ -11,7 +11,7 @@ from flask_cors import CORS
 from api.v1.images import imagesRoute
 import logging
  
-logging.basicConfig(filename = './logs/development.log', format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+logging.basicConfig(filename = './logs/development.log', format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s', level=logging.DEBUG)
 
 
 main = Flask(__name__)
